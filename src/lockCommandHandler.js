@@ -9,10 +9,11 @@ class ResourceLockManager {
 
     lock(resource, username) {
         if (this.locks.has(resource)) {
+            const lockOwner = this.locks.get(resource);
             return {
                 resource,
-                status: "Locked",
-                username: this.locks.get(resource)
+                status: "already Locked",
+                username: lockOwner
             };
         }
         this.locks.set(resource, username);
@@ -24,28 +25,42 @@ class ResourceLockManager {
     }
 
     unlock(resource, username, force = false) {
+        // First check if resource exists
         if (!this.locks.has(resource)) {
             return {
                 resource,
-                status: "not locked",
+                status: "unlocked",
                 username
             };
         }
 
         const lockOwner = this.locks.get(resource);
-        if (lockOwner !== username && !force) {
+        
+        // Check ownership
+        if (lockOwner === username) {
+            this.locks.delete(resource);
             return {
                 resource,
-                status: "Locked",
-                username: lockOwner
+                status: "Unlocked",
+                username
             };
         }
 
-        this.locks.delete(resource);
+        // If we get here, someone else owns the lock
+        if (force) {
+            this.locks.delete(resource);
+            return {
+                resource,
+                status: "forced Unlocked",
+                username
+            };
+        }
+
+        // Someone else owns it and no force flag
         return {
             resource,
-            status: force ? "forced Unlocked" : "Unlocked",
-            username
+            status: `Locked by ${lockOwner}`,
+            username: lockOwner
         };
     }
 }
