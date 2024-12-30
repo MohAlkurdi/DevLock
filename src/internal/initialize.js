@@ -1,6 +1,7 @@
 const { BotBuilderCloudAdapter } = require("@microsoft/teamsfx");
 const ConversationBot = BotBuilderCloudAdapter.ConversationBot;
 const { HelloWorldCommandHandler } = require("../helloworldCommandHandler");
+const { LockCommandHandler } = require("../lockCommandHandler");
 const { GenericCommandHandler } = require("../genericCommandHandler");
 const config = require("./config");
 
@@ -13,7 +14,7 @@ const commandApp = new ConversationBot({
   adapterConfig: config,
   command: {
     enabled: true,
-    commands: [new HelloWorldCommandHandler(), new GenericCommandHandler()],
+    commands: [new HelloWorldCommandHandler(), new LockCommandHandler(), new GenericCommandHandler()],
   },
 });
 

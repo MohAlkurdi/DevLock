@@ -45,6 +45,22 @@
                             "description": "A helloworld command to send a welcome message"
                         }
                     ]
+                },
+                {
+                    "commands": [
+                        {
+                            "title": "lock",
+                            "description": "Lock a resource"
+                        },
+                        {
+                            "title": "unlock",
+                            "description": "Unlock a resource"
+                        },
+                        {
+                            "title": "unlock --force",
+                            "description": "Force unlock a resource"
+                        }
+                    ]
                 }
             ]
         }
